@@ -1,6 +1,6 @@
 import Header from "../../components/Header";
 import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchAllOrders } from "../../apis/Orders/AllOrders";
@@ -35,11 +35,11 @@ const Orders = () => {
     {
       field: "status",
       headerName: "Status",
-      flex: 1,
+      flex: 3,
       renderCell: ({ row: { status } }) => {
         return (
           <Box
-            width="60%"
+            width="50%"
             p="5px"
             display="flex"
             backgroundColor={
@@ -72,9 +72,11 @@ const Orders = () => {
       headerName: "Actions",
       renderCell: ({ row: { _id } }) => {
         return (
-          <IconButton onClick={() => handleArchiveOrder(_id)}>
-            <ArchiveOutlinedIcon />
-          </IconButton>
+          <Tooltip title="Archive" placement="right">
+            <IconButton onClick={() => handleArchiveOrder(_id)}>
+              <ArchiveOutlinedIcon />
+            </IconButton>
+          </Tooltip>
         );
       },
     },

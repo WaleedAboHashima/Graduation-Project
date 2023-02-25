@@ -1,22 +1,18 @@
-import Cookies from "universal-cookie";
 import Header from "../../components/Header";
 import { useEffect } from "react";
 import { tokens } from "../../theme";
 import { useDispatch, useSelector } from "react-redux";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { fetchallUsers } from "../../apis/Users/AllUsers";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import MoneyOutlinedIcon from "@mui/icons-material/MoneyOutlined";
+import { Box, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
+import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteUser } from "../../apis/Users/DeleteUsers";
 const Users = () => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IldhbGVlZCBBIiwiZW1haWwiOiJ3YWxlZWRzYWJyeXl5eUBnbWFpbC5jb20iLCJwaG9uZSI6IjAxMTI5ODAwMzA1IiwibG9jYXRpb24iOiIxMHRoIE9mIFJhbWFkYW4iLCJyb2xlIjo1MDUwLCJpYXQiOjE2NzY5MzEzMjMsImV4cCI6MTY3NzAxNzcyM30.1a7hddPIqu43OY3MAe0bghsVUf9qBoGdhYOILjIbQKg";
   // Variables.
-  const cookies = new Cookies();
   const usersData = useSelector((state) => state.allUsers.data.All_Users);
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -43,7 +39,7 @@ const Users = () => {
     {
       field: "role",
       headerName: "Access Level",
-      flex: 1,
+      flex: 2,
       renderCell: ({ row: { role, _id } }) => {
         return (
           <Box
@@ -52,7 +48,11 @@ const Users = () => {
             p="5px"
             display="flex"
             backgroundColor={
-              role === 5050 ? colors.primary[900] : colors.primary[500]
+              role === 5050
+                ? colors.primary[900]
+                : role === 5000
+                ? colors.primary[800]
+                : colors.primary[500]
             }
             borderRadius="4px"
           >
@@ -61,7 +61,7 @@ const Users = () => {
             ) : role === 2500 ? (
               <LocalShippingOutlinedIcon />
             ) : role === 5000 ? (
-              <MoneyOutlinedIcon />
+              <CurrencyPoundIcon />
             ) : (
               <PersonOutlineOutlinedIcon />
             )}
@@ -84,9 +84,11 @@ const Users = () => {
       renderCell: ({ row: { _id } }) => {
         return (
           <Box>
-            <IconButton onClick={() => handleDeleteUser(_id)}>
-              <DeleteIcon sx={{ color: "#B22222" }} />
-            </IconButton>
+            <Tooltip title="Delete" placement="right">
+              <IconButton onClick={() => handleDeleteUser(_id)}>
+                <DeleteIcon sx={{ color: "#B22222" }} />
+              </IconButton>
+            </Tooltip>
           </Box>
         );
       },
@@ -106,8 +108,6 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(fetchallUsers());
-    cookies.set("token", token);
-    cookies.set("username", "Waleed A");
   }, [dispatch]);
 
   return (

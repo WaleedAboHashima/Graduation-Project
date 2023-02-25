@@ -36,6 +36,13 @@ const BarChart = ({ isDashboard = false }) => {
             fill: colors.grey[100],
           },
         },
+        tooltip: {
+          container: {
+            background: theme.palette.mode === "dark" ? "black" : "white",
+            color: theme.palette.mode === "dark" ? colors.primary[900] : "black",
+
+          }
+        }
       }}
       data={data}
       keys={[
@@ -72,6 +79,7 @@ const BarChart = ({ isDashboard = false }) => {
           lineWidth: 6,
           spacing: 10,
         },
+        
       ]}
       fill={[
         {
@@ -93,7 +101,6 @@ const BarChart = ({ isDashboard = false }) => {
       }}
       axisTop={null}
       axisRight={null}
-      enableLabel={false}
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{

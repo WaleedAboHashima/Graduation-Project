@@ -7,10 +7,13 @@ import { Provider } from "react-redux";
 import store from "./apis/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+if (!localStorage.getItem("theme")) {
+  localStorage.setItem("theme", "dark");
+}
 root.render(
-    <Provider store={store}>
+  <Provider store={store}>
       <Router>
         <App />
       </Router>
-    </Provider>
+  </Provider>
 );

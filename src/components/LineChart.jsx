@@ -35,6 +35,13 @@ const LineChart = ({ isDashboard = false }) => {
             fill: colors.primary[500],
           },
         },
+        tooltip: {
+          container: {
+            background: theme.palette.mode === "dark" ? "black" : "white",
+            color: theme.palette.mode === "dark" ? colors.primary[900] : "black",
+
+          }
+        }
       }}
       data={data}
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
@@ -53,6 +60,7 @@ const LineChart = ({ isDashboard = false }) => {
       pointColor={{ theme: "background" }}
       pointBorderWidth={2}
       pointBorderColor={{ from: "serieColor" }}
+      // isInteractive={false}
       pointLabelYOffset={-12}
       useMesh={true}
       legends={[

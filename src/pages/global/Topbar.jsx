@@ -1,7 +1,7 @@
 import {
   Box,
   IconButton,
-  InputBase,
+  // InputBase,
   ListItemIcon,
   Menu,
   MenuItem,
@@ -13,11 +13,13 @@ import { ColorModeContext, tokens } from "../../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+// import SearchIcon from "@mui/icons-material/Search";
 import { Logout, Settings } from "@mui/icons-material";
+import Cookies from "universal-cookie";
 const Topbar = () => {
   // Variables
   const theme = useTheme();
+  const cookies = new Cookies();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const [dropmenu, setDropmenu] = useState(null);
@@ -32,11 +34,11 @@ const Topbar = () => {
     }
   };
 
-
-   const handleLogOut = () => {
-    console.log('Logged Out')
-    handleClick();
-   }
+  const handleLogOut = () => {
+    cookies.remove("token");
+    cookies.remove("username");
+    window.location.reload();
+  };
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
@@ -45,25 +47,19 @@ const Topbar = () => {
         display="flex"
         backgroundColor={colors.primary[400]}
         borderRadius="3px"
-      >
-        <InputBase
-          sx={{ ml: 2, flex: 1, color: "black" }}
-          placeholder="Search"
-        />
-        <IconButton type="button" sx={{ p: 1, color: "#C6C6C6" }}>
-          <SearchIcon />
-        </IconButton>
-      </Box>
+      ></Box>
 
       {/* Icons */}
       <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? (
-            <DarkModeOutlinedIcon />
-          ) : (
-            <LightModeOutlinedIcon />
-          )}
-        </IconButton>
+        <Tooltip title="Mode">
+          <IconButton onClick={colorMode.toggleColorMode}>
+            {theme.palette.mode === "dark" ? (
+              <DarkModeOutlinedIcon />
+            ) : (
+              <LightModeOutlinedIcon />
+            )}
+          </IconButton>
+        </Tooltip>
         <Tooltip title="My Account">
           <IconButton onClick={handleClick}>
             <PersonOutlinedIcon />

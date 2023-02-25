@@ -71,7 +71,7 @@ export const tokens = (mode) => ({
           600: "#f5f8fa",
           700: "#f8fafb",
           800: "#fafbfd",
-          900: "#ababab", //Changed Cuz of Side Bar
+          900: "#f3f6f9", //Changed Cuz of Side Bar
         },
       }),
 });
@@ -98,7 +98,7 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: "#2D2D2D", // Changed For Background Dark Theme. 
+              default: "#2D2D2D", // Changed For Background Dark Theme.
             },
           }
         : {
@@ -156,12 +156,21 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
-  const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState(localStorage.getItem("theme"));
 
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () =>
-        setMode((prev) => (prev === "light" ? "dark" : "light")),
+        setMode((prev) => {
+          if (prev === "dark") {
+            localStorage.setItem("theme", "light");
+            return prev = "light";
+          }
+          else {
+            localStorage.setItem("theme", "dark");
+            return prev = "dark";
+          }
+        }),
     }),
     []
   );
